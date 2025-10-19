@@ -1,0 +1,16 @@
+{
+  "name": "shared",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^20.3.0",
+    "@angular/core": "^20.3.0"
+  },
+    "scripts": {
+    "swagger-types": "npx openapi-typescript-codegen --input http://localhost:3001/docs-json --output ./src/lib/api --exportServices false",
+    "generate:service": "node scripts/generate-service.mjs"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}
