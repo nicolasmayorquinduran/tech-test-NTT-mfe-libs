@@ -115,6 +115,14 @@ export const MFE_ENV = {
     login: {
       url: 'http://localhost:4201',
       port: 4201
+    },
+    banner: {
+      url: 'http://localhost:4202',
+      port: 4202
+    },
+    members: {
+      url: 'http://localhost:4203',
+      port: 4203
     }
   },
   production: {
@@ -124,6 +132,14 @@ export const MFE_ENV = {
     },
     login: {
       url: 'https://login.production.com',
+      port: 443
+    },
+    banner: {
+      url: 'https://banner.production.com',
+      port: 443
+    },
+    members: {
+      url: 'https://members.production.com',
       port: 443
     }
   }

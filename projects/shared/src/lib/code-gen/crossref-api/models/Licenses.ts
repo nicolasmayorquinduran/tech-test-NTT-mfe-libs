@@ -2,8 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type LoginDto = {
-    username: string;
-    password: string;
+import type { License } from './License';
+export type Licenses = {
+    'total-results': number;
+    items: Array<License>;
 };
 

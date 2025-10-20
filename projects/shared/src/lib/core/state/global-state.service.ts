@@ -1,5 +1,5 @@
-import { Injectable, signal, computed } from '@angular/core';
-import { UserDto } from '../../api/models/UserDto';
+import { Injectable, signal, computed, effect } from '@angular/core';
+import { MemberDto } from '../../code-gen/custom-api/models/MemberDto';
 
 /**
  * Servicio de estado global compartido entre Host y Remotes
@@ -10,42 +10,66 @@ import { UserDto } from '../../api/models/UserDto';
 })
 export class GlobalStateService {
   /**
-   * Usuario actual autenticado
+   * Member actual autenticado
    */
-  private _user = signal<UserDto | null>(null);
-  readonly user = this._user.asReadonly();
-
-  /**
-   * Indica si hay un usuario autenticado
-   */
-  readonly isAuthenticated = computed(() => this._user() !== null);
-
-  /**
-   * Nombre del usuario actual
-   */
-  readonly userName = computed(() => this._user()?.name ?? '');
-
-  /**
-   * Establecer el usuario actual
-   */
-  setUser(user: UserDto | null): void {
-    this._user.set(user);
+  private _member = signal<MemberDto | null>(null);
+  readonly member = this._member.asReadonly();
+  
+  constructor() {
+    if (typeof window !== 'undefined') {
+      const raw = localStorage.getItem('global_member');
+      if (raw) {
+        try {
+          this._member.set(JSON.parse(raw));
+        } catch {}
+      }
+      effect(() => {
+        const val = this._member();
+        if (val) {
+          localStorage.setItem('global_member', JSON.stringify(val));
+        } else {
+          localStorage.removeItem('global_member');
+        }
+      });
+    }
   }
 
   /**
-   * Limpiar el usuario (logout)
+   * Indica si hay un member autenticado
    */
-  clearUser(): void {
-    this._user.set(null);
+  readonly isAuthenticated = computed(() => this._member() !== null);
+
+  /**
+   * Nombre del member actual
+   */
+  readonly memberName = computed(() => this._member()?.['primary-name'] ?? '');
+
+  /**
+   * ID del member actual
+   */
+  readonly memberId = computed(() => this._member()?.id ?? null);
+
+  /**
+   * Establecer el member actual
+   */
+  setMember(member: MemberDto | null): void {
+    this._member.set(member);
   }
 
   /**
-   * Actualizar parcialmente el usuario
+   * Limpiar el member (logout)
    */
-  updateUser(updates: Partial<UserDto>): void {
-    const currentUser = this._user();
-    if (currentUser) {
-      this._user.set({ ...currentUser, ...updates });
+  clearMember(): void {
+    this._member.set(null);
+  }
+
+  /**
+   * Actualizar parcialmente el member
+   */
+  updateMember(updates: Partial<MemberDto>): void {
+    const currentMember = this._member();
+    if (currentMember) {
+      this._member.set({ ...currentMember, ...updates });
     }
   }
 }

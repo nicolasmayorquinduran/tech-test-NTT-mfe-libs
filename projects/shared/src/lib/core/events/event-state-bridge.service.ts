@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { EventBusService } from './event-bus.service';
 import { EventTypes } from './event-types';
 import { GlobalStateService } from '../state/global-state.service';
-import { UserDto } from '../../api/models/UserDto';
+import { MemberDto } from '../../code-gen/custom-api/models/MemberDto';
 
 /**
  * Servicio puente entre EventBus y GlobalState
@@ -23,15 +23,15 @@ export class EventStateBridgeService {
    */
   initialize(): void {
     // Escuchar login exitoso
-    this.eventBus.on<UserDto>(EventTypes.USER_LOGGED_IN).subscribe(user => {
-      console.log('[EventStateBridge] Usuario logueado:', user);
-      this.globalState.setUser(user);
+    this.eventBus.on<MemberDto>(EventTypes.MEMBER_LOGGED_IN).subscribe(member => {
+      console.log('[EventStateBridge] Member logueado:', member);
+      this.globalState.setMember(member);
     });
 
     // Escuchar logout
-    this.eventBus.on(EventTypes.USER_LOGGED_OUT).subscribe(() => {
-      console.log('[EventStateBridge] Usuario deslogueado');
-      this.globalState.clearUser();
+    this.eventBus.on(EventTypes.MEMBER_LOGGED_OUT).subscribe(() => {
+      console.log('[EventStateBridge] Member deslogueado');
+      this.globalState.clearMember();
     });
 
     console.log('[EventStateBridge] Inicializado correctamente');

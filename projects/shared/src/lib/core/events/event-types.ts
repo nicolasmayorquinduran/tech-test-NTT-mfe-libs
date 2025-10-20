@@ -1,27 +1,25 @@
-import { UserDto } from '../../api/models/UserDto';
+import { MemberDto } from '../../code-gen/custom-api/models/MemberDto';
 
 /**
  * Tipos de eventos disponibles en el EventBus
  */
+/**
+ * Event types available in the EventBus.
+ */
 export const EventTypes = {
-  // Eventos de autenticación
-  USER_LOGGED_IN: 'user.logged_in',
-  USER_LOGGED_OUT: 'user.logged_out',
-  
-  // Puedes agregar más eventos aquí
-  // NAVIGATION_CHANGE: 'navigation.change',
-  // NOTIFICATION_SHOW: 'notification.show',
+  MEMBER_LOGGED_IN: 'member.logged_in',
+  MEMBER_LOGGED_OUT: 'member.logged_out',
 } as const;
 
 /**
- * Payloads tipados para cada evento
+ * Typed payloads for each event type.
  */
 export interface EventPayloads {
-  [EventTypes.USER_LOGGED_IN]: UserDto;
-  [EventTypes.USER_LOGGED_OUT]: void;
+  [EventTypes.MEMBER_LOGGED_IN]: MemberDto;
+  [EventTypes.MEMBER_LOGGED_OUT]: void;
 }
 
 /**
- * Helper type para obtener el payload de un evento
+ * Helper type to retrieve the payload type for a given event.
  */
 export type EventPayload<T extends keyof EventPayloads> = EventPayloads[T];

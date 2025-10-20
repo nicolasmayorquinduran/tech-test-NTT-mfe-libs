@@ -1,18 +1,17 @@
 import { inject } from '@angular/core';
 import { Router, type CanActivateFn } from '@angular/router';
-import { UserService } from '../../user/services/user';
+import { GlobalStateService } from '../../core/state/global-state.service';
 
 /**
- * Guard que protege rutas verificando si el usuario está autenticado
+ * Guard that protects routes by verifying user authentication.
  */
 export const authGuard: CanActivateFn = () => {
-  const userService = inject(UserService);
+  const globalState = inject(GlobalStateService);
   const router = inject(Router);
   
-  if (userService.user() !== undefined) {
+  if (globalState.isAuthenticated()) {
     return true;
   }
   
-  // Redirigir al login si no está autenticado
   return router.createUrlTree(['/login']);
 };

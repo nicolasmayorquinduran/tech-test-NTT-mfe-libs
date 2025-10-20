@@ -6,7 +6,8 @@
     "@angular/core": "^20.3.0"
   },
     "scripts": {
-    "swagger-types": "npx openapi-typescript-codegen --input http://localhost:3001/docs-json --output ./src/lib/api --exportServices false",
+    "custom-api-types": "npx openapi-typescript-codegen --input http://localhost:3001/docs-json --output ./src/lib/code-gen/custom-api --exportServices false",
+    "crossref-api-types": "npx openapi-typescript-codegen --input https://api.crossref.org/swagger-docs --output ./src/lib/code-gen/crossref-api --exportServices false",
     "generate:service": "node scripts/generate-service.mjs"
   },
   "dependencies": {

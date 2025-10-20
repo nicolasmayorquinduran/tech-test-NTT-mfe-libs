@@ -21,23 +21,19 @@ export class HttpService {
   private readonly apiConfig = inject(API_CONFIG);
 
   /**
-   * Construye la URL completa usando la baseUrl de la configuración
+   * Builds a full URL using the configured baseUrl.
    */
   private buildUrl(endpoint: string): string {
-    // Si el endpoint ya es una URL completa, retornarla tal cual
     if (endpoint.startsWith('http://') || endpoint.startsWith('https://')) {
       return endpoint;
     }
-    
-    // Construir URL con baseUrl de configuración
-    const baseUrl = this.apiConfig.baseUrl.replace(/\/$/, ''); // Remover trailing slash
+
+    const baseUrl = this.apiConfig.baseUrl.replace(/\/$/, '');
     const path = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
     return `${baseUrl}${path}`;
   }
 
-  /**
-   * Realiza una petición GET
-   */
+  /** Performs a GET request. */
   get<T>(endpoint: string, options?: HttpOptions): Observable<T> {
     const url = this.buildUrl(endpoint);
     return this.http.get<T>(url, options).pipe(
@@ -46,9 +42,7 @@ export class HttpService {
     );
   }
 
-  /**
-   * Realiza una petición POST
-   */
+  /** Performs a POST request. */
   post<T>(endpoint: string, body: any, options?: HttpOptions): Observable<T> {
     const url = this.buildUrl(endpoint);
     return this.http.post<T>(url, body, options).pipe(
@@ -57,9 +51,7 @@ export class HttpService {
     );
   }
 
-  /**
-   * Realiza una petición PUT
-   */
+  /** Performs a PUT request. */
   put<T>(endpoint: string, body: any, options?: HttpOptions): Observable<T> {
     const url = this.buildUrl(endpoint);
     return this.http.put<T>(url, body, options).pipe(
@@ -68,9 +60,7 @@ export class HttpService {
     );
   }
 
-  /**
-   * Realiza una petición PATCH
-   */
+  /** Performs a PATCH request. */
   patch<T>(endpoint: string, body: any, options?: HttpOptions): Observable<T> {
     const url = this.buildUrl(endpoint);
     return this.http.patch<T>(url, body, options).pipe(
@@ -79,9 +69,7 @@ export class HttpService {
     );
   }
 
-  /**
-   * Realiza una petición DELETE
-   */
+  /** Performs a DELETE request. */
   delete<T>(endpoint: string, options?: HttpOptions): Observable<T> {
     const url = this.buildUrl(endpoint);
     return this.http.delete<T>(url, options).pipe(
@@ -90,17 +78,13 @@ export class HttpService {
     );
   }
 
-  /**
-   * Manejo centralizado de errores HTTP
-   */
+  /** Centralized HTTP error handling. */
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Ocurrió un error en la petición';
     
     if (error.error instanceof ErrorEvent) {
-      // Error del cliente o de red
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // Error del servidor
       errorMessage = error.error?.message || `Error ${error.status}: ${error.statusText}`;
     }
     

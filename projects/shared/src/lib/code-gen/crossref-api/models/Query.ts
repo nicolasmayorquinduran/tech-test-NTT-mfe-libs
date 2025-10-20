@@ -2,9 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { UserDto } from './UserDto';
-export type LoginResponseDto = {
-    ok: boolean;
-    user: UserDto;
+export type Query = {
+    'start-index': number;
+    'search-terms': any;
 };
 
